@@ -1,0 +1,33 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body style="background-color: #0f172a; color: #ff8c00;">
+    <h1 style="font-size: 3vw; text-align: center; margin-bottom: 0;"><b>READY FOR THE TERROR</b></h1>
+    <h2 style="text-align: center; font-size: 2vw; margin-top: 0;">"Log your Way In with 🎃🎃"</h2>
+    <p style="font-size: 2vw; margin-top: 7vw;"> 💀Details Here</p>
+    {% if error %}
+    <p style="color: red; font-size: 2vw;">Either the <b>USERNAME</b> or <b>PIN</b> is incorrect!</p>
+    {% endif %}
+    <table style="font-size: 2vw;">
+        <tr>
+            <td>
+                Username:
+            </td>
+            <td>
+                <input type="text" name="name" placeholder="Enter your name" required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Pin:
+            </td>
+            <td>
+                <input type="text" name="pin" placeholder="Enter your pin" inputmode="numeric" pattern="[0-9]{}">
+            </td>
+        </tr>
+    </table>
+    <button type="submit">Login</button>
+    <p style="margin-left: 2vw; font-size: 2vw;">Don't have an acccount?  🕸️<a href="/signin_initiate">REGISTER</a> 🕸️</p>
+</body>

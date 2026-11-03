@@ -1,0 +1,32 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+</head>
+<body style="background-color: #0f172a; color: #ff8c00;">
+    <h1 style="font-size: 3vw; text-align: center; margin-bottom: 0;">WANNA HAVE THE AFTER HALLOWEEN THRILL</h1>
+    <h2 style="font-size: 2vw; text-align: center; margin-top: 0;">"Welcome to <b>SPOOKY ARCADE"</b></h2>
+    <p style="font-size: 2vw; margin-top: 7vw;">Let's create your spooky name👻</p>
+    {% if error %}
+    <p style="color: red; font-size: 2vw;"><b>USERNAME</b> is already taken.</p>
+    {% endif %}
+    <table>
+        <tr>
+            <td>
+                Username:
+            </td>
+            <td>
+                <input type="text" name="name" placeholder="Enter you username" required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Pin:
+            </td>
+            <td>
+                <input type="text" name="pin" inputmode="numeric" pattern="[0-9]{4}" placeholder="Enter your 4 digit pin" required>
+            </td>
+        </tr>
+    </table>
+    <button type="submit">Signin</button>
+</body>
