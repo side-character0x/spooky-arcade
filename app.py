@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from db import Database
 app=Flask(__name__)
 app.secret_key="secret"
 
 @app.route("/")
 def root():
-    return render_template("root.html")
+    return render_template("gamblegame.html")
 
 @app.route("/login_initiate")
 def login_initiate():
@@ -16,6 +16,7 @@ def login():
     username=request.form["name"]
     pin=request.form["pin"]
     if Database().check_user(username,pin):
+        session["username"]=username
         return redirect("/home")
     else:
         return render_template("login.html", error=True)
@@ -31,16 +32,33 @@ def signin():
     verify=Database().check_username(username)
     if verify:
         Database().add_user(username,pin)
+        session["username"]=username
         return redirect("/home")
     else:
         return render_template("signin.html",error=True)
 
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    username=session["username"]
+    candies=Database().get_candies(username)
+    return render_template("home.html",username=username, candies=candies)
 
 @app.route("/route")
 def route():
-    return render_template("route.html")
+    username=session['username']
+    candies=Database().get_candies(username)
+    return render_template("route.html", username=username, cnadies=candies)
+
+@app.route("/gamble")
+def gamble():
+    return render_template("/gamble.html")
+
+@app.route("/pregamble")
+def pregamble():
+    return render_template("pregamble.html")
+
+@app.route("/gamblegame")
+def gamblegame():
+    return render_template("gamblegame.html")
 
 app.run(debug=True)

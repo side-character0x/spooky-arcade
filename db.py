@@ -31,3 +31,13 @@ class Database:
         else:
             return False
 
+    def add_candies(self,username,candies):
+        self.cur.execute("UPDATE data SET candies=candies+? WHERE username=?",(candies,username))
+        self.conn.commit()
+        self.conn.close()
+
+    def get_candies(self,username):
+        candies=self.cur.execute("SELECT candies FROM data WHERE username=?",(username,)).fetchone()
+        self.conn.close()
+        return candies["candies"]
+
