@@ -38,4 +38,9 @@ def signin():
 @app.route("/home")
 def home():
     return render_template("home.html")
+
+@app.route("/route")
+def route():
+    return render_template("route.html")
+
 app.run(debug=True)
