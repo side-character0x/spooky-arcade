@@ -10,6 +10,7 @@
     {% if error %}
     <p style="color: red; font-size: 2vw;">Either the <b>USERNAME</b> or <b>PIN</b> is incorrect!</p>
     {% endif %}
+    <form action="/login" method="post">
     <table style="font-size: 2vw;">
         <tr>
             <td>
@@ -24,10 +25,11 @@
                 Pin:
             </td>
             <td>
-                <input type="text" name="pin" placeholder="Enter your pin" inputmode="numeric" pattern="[0-9]{}">
+                <input type="text" name="pin" placeholder="Enter your pin" inputmode="numeric" pattern="[0-9]{4}" required>
             </td>
         </tr>
     </table>
     <button type="submit">Login</button>
+    </form>
     <p style="margin-left: 2vw; font-size: 2vw;">Don't have an acccount?  🕸️<a href="/signin_initiate">REGISTER</a> 🕸️</p>
 </body>

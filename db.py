@@ -9,7 +9,7 @@ class Database:
         self.cur.execute("CREATE TABLE IF NOT EXISTS data(username TEXT, candies INTEGER)")
 
     def check_username(self,username):
-        username=self.cur.execute("SELECT * FROM auth WHERE username=?",(username,)).fetchall()
+        username=self.cur.execute("SELECT * FROM auth WHERE username=?",(username,)).fetchone()
         self.conn.close()
         if username is None:
             return True

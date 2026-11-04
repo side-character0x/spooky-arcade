@@ -10,6 +10,7 @@
     {% if error %}
     <p style="color: red; font-size: 2vw;"><b>USERNAME</b> is already taken.</p>
     {% endif %}
+    <form action="/signin" method="post">
     <table>
         <tr>
             <td>
@@ -29,4 +30,5 @@
         </tr>
     </table>
     <button type="submit">Signin</button>
+    </form>
 </body>

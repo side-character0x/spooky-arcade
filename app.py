@@ -35,5 +35,7 @@ def signin():
     else:
         return render_template("signin.html",error=True)
 
-
+@app.route("/home")
+def home():
+    return render_template("home.html")
 app.run(debug=True)
