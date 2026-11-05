@@ -1,0 +1,33 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="2;url={{url}}">
+    <title>Gamble View</title>
+</head>
+<body style="background-color: #111827; color: #9ca3af">
+    <div style="display: flex;">
+        <h1 style="font-size: 3vw; flex: 1;"><b>THE WITCH'S GAMBLE</b></h1>
+        <h2 style="text-align: right; flex: 1; font-size: 3vw;"><a href="/route">EXIT</a></h2>
+    </div>
+    <hr>
+    <form action="/gamblegame" method="post">
+        <p style="text-align: center; font-size: 3vw;">Pot: {{pot_candies}} 🍬 </p>
+        <hr>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8vh; width: 70%; justify-content: center; margin: auto; margin-top: 2vw;">
+        <div style="font-size: 2vw; text-align: center; cursor: pointer; padding: 7vh 5vh;">
+            <p>{{box_1}}</p>
+        </div>
+        <div style="font-size: 2vw; text-align: center; cursor: pointer; padding: 7vh 5vh;">
+            <p>{{box_2}}</p>
+        </div>
+        <div style="font-size: 2vw; text-align: center; cursor: pointer; padding: 7vh 5vh;">
+            <p>{{box_3}}</p>
+        </div>
+        <div style="font-size: 2vw; text-align: center; cursor: pointer; padding: 7vh 5vh;">
+            <p>{{box_4}}</p>
+        </div>
+    </div>
+    <hr>
+    <p style="text-align: center; font-size: 3vw;">Cash Out</p>
+    </form>
+</body>

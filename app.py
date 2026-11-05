@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 from db import Database
 import random
-
+from candies import CANDY_TYPES
 app=Flask(__name__)
 app.secret_key="secret"
 
@@ -93,9 +93,18 @@ def cashout():
     current_balance=Database().get_candies(username)
     return render_template("cashout.html", current_balance=current_balance, cashed_candy=pot_candies)
 
+def gambleview(url):
+    candies=session["candies_order"]
+    box_1=CANDY_TYPES[str(candies[0])]
+    box_2=CANDY_TYPES[str(candies[1])]
+    box_3=CANDY_TYPES[str(candies[2])]
+    box_4=CANDY_TYPES[str(candies[3])]
+    return render_template("gamble_view.html", pot_candies=session["pot_candies"],box_1=box_1, box_2=box_2, box_3=box_3, box_4=box_4,url=url)
+
 @app.route("/gamblegame", methods=["GET","POST"])
 def gamblegame():
     if request.method=="POST":
+        random.shuffle(session["candies_order"])
         if session["pot_candies"]<=0:
             return render_template("gamble_over.html")
         cashout=request.form.get("cashout")
@@ -104,19 +113,35 @@ def gamblegame():
         box=int(request.form.get("box"))
         candy=session["candies_order"][box-1]
         if candy==1:
-            session["pot_candies"]*=2
-            pot_candies=session["pot_candies"]
-            return render_template("golden_candy.html", pot_candies=pot_candies)
+            return gambleview("/golden")
         elif candy==2:
-            pot_candies=session["pot_candies"]
-            return render_template("empty_box.html", pot_candies=pot_candies)
+            return gambleview("/empty")
         elif candy==3:
-            session["pot_candies"]-=10
-            pot_candies=session["pot_candies"]
-            return render_template("normal_candy.html", pot_candies=pot_candies)
+            return gambleview("/normal")
         elif candy==4:
-            session["pot_candies"]=0
-            return render_template("cursed_candy.html")
+            return gambleview("/cursed")
     return render_template("gamblegame.html",pot_candies=session["pot_candies"])
+
+@app.route("/golden")
+def golden_candy():
+    session["pot_candies"]*=2
+    pot_candies=session["pot_candies"]
+    return render_template("golden_candy.html", pot_candies=pot_candies)
+
+@app.route("/empty")
+def empty():
+    pot_candies=session["pot_candies"]
+    return render_template("empty_box.html", pot_candies=pot_candies)
+
+@app.route("/normal")
+def normal_candy():
+    session["pot_candies"]-=10
+    pot_candies=session["pot_candies"]
+    return render_template("normal_candy.html", pot_candies=pot_candies)
+
+@app.route("/cursed")
+def cursed_candy():
+    session["pot_candies"]=0
+    return render_template("cursed_candy.html")
 
 app.run(debug=True)
