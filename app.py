@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, session
 from db import Database
+import random
+
 app=Flask(__name__)
 app.secret_key="secret"
 
 @app.route("/")
 def root():
-    return render_template("gamblegame.html")
+    return render_template("gamble.html")
 
 @app.route("/login_initiate")
 def login_initiate():
@@ -53,12 +55,53 @@ def route():
 def gamble():
     return render_template("/gamble.html")
 
-@app.route("/pregamble")
+@app.route("/pregamble", methods=["GET","POST"])
 def pregamble():
+    if request.method=="POST":
+        difficulty=request.form["difficulty"]
+        if difficulty=="easy":
+            session["candies"]=[1,1,1,4]
+        elif difficulty=="medium":
+            session["candies"]=[1,1,2,4]
+        elif difficulty=="hard":
+            session["candies"]=[1,1,3,4]
+        elif difficulty=="extreme":
+            session["candies"]=[1,2,3,4]
+        return redirect("/gambleset")
     return render_template("pregamble.html")
 
-@app.route("/gamblegame")
+@app.route("/gambleset")
+def gambleset():
+    candies=session["candies"]
+    random.shuffle(candies)
+    session["candies_order"]=candies
+    session["pot_candies"]=20
+    return redirect("/gamblegame")
+
+@app.route("/gamblegame", methods=["GET","POST"])
 def gamblegame():
+    if request.method=="POST":
+        # if session["pot_candies"]<=0:
+        #     return render_template("gamble_over.html")
+        cashout=request.form.get("cashout")
+        if cashout:
+            pass                                 #incomplete
+        box=int(request.form.get("box"))
+        candy=session["candies_order"][box-1]
+        if candy==1:
+            session["pot_candies"]*=2
+            pot_candies=session["pot_candies"]
+            return render_template("golden_candy.html", pot_candies=pot_candies)
+        elif candy==2:
+            pot_candies=session["pot_candies"]
+            return render_template("empty_box.html", pot_candies=pot_candies)
+        elif candy==3:
+            session["pot_candies"]-=10
+            pot_candies=session["pot_candies"]
+            return render_template("normal_candy.html", pot_candies=pot_candies)
+        elif candy==4:
+            session["pot_candies"]=0
+            return render_template("cursed_candy.html")
     return render_template("gamblegame.html")
 
 app.run(debug=True)
