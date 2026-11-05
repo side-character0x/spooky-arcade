@@ -17,7 +17,7 @@ class Database:
             return False
     def add_user(self,username,pin):
         self.cur.execute("INSERT INTO auth(username,pin) VALUES(?,?)",(username,pin))
-        self.cur.execute("INSERT INTO data(username,candies) VALUES(?,?)",(username,0))
+        self.cur.execute("INSERT INTO data(username,candies) VALUES(?,?)",(username,200))
         self.conn.commit()
         self.conn.close()
 
@@ -41,3 +41,9 @@ class Database:
         self.conn.close()
         return candies["candies"]
 
+    def reduce_candies(self,username,candies):
+        self.cur.execute("UPDATE data SET candies=candies-? WHERE username=?",(candies, username))
+        self.conn.commit()
+        self.conn.close()
+
+        

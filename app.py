@@ -7,7 +7,7 @@ app.secret_key="secret"
 
 @app.route("/")
 def root():
-    return render_template("gamble.html")
+    return render_template("root.html")
 
 @app.route("/login_initiate")
 def login_initiate():
@@ -49,10 +49,16 @@ def home():
 def route():
     username=session['username']
     candies=Database().get_candies(username)
-    return render_template("route.html", username=username, cnadies=candies)
+    return render_template("route.html", username=username, candies=candies, eligibility=True)
 
 @app.route("/gamble")
 def gamble():
+    candies=Database().get_candies(session["username"])
+    if candies<30:
+        username=session['username']
+        candies=Database().get_candies(username)
+        return render_template("route.html", username=username, candies=candies, eligibility=False)
+    Database().reduce_candies(session["username"],30)
     return render_template("/gamble.html")
 
 @app.route("/pregamble", methods=["GET","POST"])
@@ -75,17 +81,26 @@ def gambleset():
     candies=session["candies"]
     random.shuffle(candies)
     session["candies_order"]=candies
-    session["pot_candies"]=20
+    session["pot_candies"]=30
     return redirect("/gamblegame")
+
+@app.route("/cashout")
+def cashout():
+    username=session["username"]
+    pot_candies=session["pot_candies"]
+    session["pot_candies"]=0
+    Database().add_candies(username,pot_candies)
+    current_balance=Database().get_candies(username)
+    return render_template("cashout.html", current_balance=current_balance, cashed_candy=pot_candies)
 
 @app.route("/gamblegame", methods=["GET","POST"])
 def gamblegame():
     if request.method=="POST":
-        # if session["pot_candies"]<=0:
-        #     return render_template("gamble_over.html")
+        if session["pot_candies"]<=0:
+            return render_template("gamble_over.html")
         cashout=request.form.get("cashout")
         if cashout:
-            pass                                 #incomplete
+            return redirect("/cashout")
         box=int(request.form.get("box"))
         candy=session["candies_order"][box-1]
         if candy==1:
@@ -102,6 +117,6 @@ def gamblegame():
         elif candy==4:
             session["pot_candies"]=0
             return render_template("cursed_candy.html")
-    return render_template("gamblegame.html")
+    return render_template("gamblegame.html",pot_candies=session["pot_candies"])
 
 app.run(debug=True)
