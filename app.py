@@ -144,4 +144,47 @@ def cursed_candy():
     session["pot_candies"]=0
     return render_template("cursed_candy.html")
 
+@ap.route("/knock")
+def knock():
+    return render_template("knock.html")
+
+@app.route("/knockstart")
+def knock_start():
+    return render_template("knock_start.html")
+
+@app.route("/midnightknock")
+def midnight_knock():
+    if request.method=="POST":
+        Type=random.choice(["normal","monster"])
+        choice=request.form["choice"]
+        if choice=="trick":
+            if Type=="normal":
+                return redirect("/tricknormal")
+            elif Type=="monster":
+                Database().add_candies(session["username"],30)
+                return redirect("/trickmonster")
+        elif choice=="treat":
+            if Type=="normal":
+                Database().add_candies(session["username"],30)
+                return redirect("/treatnormal")
+            elif Type=="monster":
+                return redirect("/treatnormal")
+    return render_template("midnight_knock.html")
+
+@app.route("/treatnormal")
+def treat_normal():
+    return render_template("treat_normal.html")
+
+@app.route("/treatmonster")
+def treat_monster():
+    return render_template("treat_monster.html")
+
+@app.route("/tricknormal")
+def trick_normal():
+    return render_template("trick_normal.html")
+
+@app.route("/trickmonster")
+def trick_monster():
+    return render_template("trick_monster.html")
+
 app.run(debug=True)
