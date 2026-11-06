@@ -144,15 +144,16 @@ def cursed_candy():
     session["pot_candies"]=0
     return render_template("cursed_candy.html")
 
-@ap.route("/knock")
+@app.route("/knock")
 def knock():
     return render_template("knock.html")
 
 @app.route("/knockstart")
 def knock_start():
+    session["gained_candies"]=0
     return render_template("knock_start.html")
 
-@app.route("/midnightknock")
+@app.route("/midnightknock", methods=["POST","GET"])
 def midnight_knock():
     if request.method=="POST":
         Type=random.choice(["normal","monster"])
@@ -161,30 +162,38 @@ def midnight_knock():
             if Type=="normal":
                 return redirect("/tricknormal")
             elif Type=="monster":
+                session["gained_candies"]+=30
                 Database().add_candies(session["username"],30)
                 return redirect("/trickmonster")
         elif choice=="treat":
             if Type=="normal":
+                session["gained_candies"]+=30
                 Database().add_candies(session["username"],30)
                 return redirect("/treatnormal")
             elif Type=="monster":
-                return redirect("/treatnormal")
+                return redirect("/treatmonster")
     return render_template("midnight_knock.html")
 
 @app.route("/treatnormal")
 def treat_normal():
-    return render_template("treat_normal.html")
+    candies=session["gained_candies"]
+    return render_template("treat_normal.html",candies=candies)
 
 @app.route("/treatmonster")
 def treat_monster():
-    return render_template("treat_monster.html")
+    candies=session["gained_candies"]
+    session["gained_candies"]=0
+    return render_template("treat_monster.html", candies=candies)
 
 @app.route("/tricknormal")
 def trick_normal():
-    return render_template("trick_normal.html")
+    candies=session["gained_candies"]
+    session["gained_candies"]=0
+    return render_template("trick_normal.html", candies=candies)
 
 @app.route("/trickmonster")
 def trick_monster():
-    return render_template("trick_monster.html")
+    candies=session["gained_candies"]
+    return render_template("trick_monster.html", candies=candies)
 
 app.run(debug=True)
