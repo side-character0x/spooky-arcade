@@ -1,0 +1,33 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SPOOKY DEDUCTION</title>
+</head>
+<body style="background-color: #0a0a0a; color: #8b0000;">
+    <h1 style="font-size: 4vw; text-align: center;">THE SPOOKY DEDUCTION</h1>
+    <hr>
+    <h2 style="font-size: 3vw;">Can you guess the mosnter?</h2>
+    <hr>
+    <p style="text-align: center; font-size: 2vw; ">
+        Clues:
+        {% for clue in clues %}
+        <br>{{clue}}
+        {% endfor %}
+    </p>
+    <hr>
+    <form action="/detectiongame" method="post">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5vw; width: 80%; justify-content: center; margin: auto;">
+                <button type="submit" name="choice" value="witch" style="font-size: 3vw;">Witch</button>
+                <button type="submit" name="choice" value="vampire" style="font-size: 3vw;">Vampire</button>
+                <button type="submit" name="choice" value="ghost" style="font-size: 3vw;">Ghost</button>
+                <button type="submit" name="choice" value="scarecrow" style="font-size: 3vw;">ScareCrow</button>
+        </div>
+        <hr>
+        {% if not clues_available %}
+        <p style="font-size: 2vw; color: red;">No more clues available</p>
+        {% endif %}
+        <button type="submit" name="choice" value="clue" style="font-size: 2vw;">Clue</button>
+    </form>
+    <hr>
+    <a href="/route" style="font-size: 3vw;">Back</a>
+</body>

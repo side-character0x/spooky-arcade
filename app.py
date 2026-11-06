@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, session
 from db import Database
 import random
 from candies import CANDY_TYPES
+from monsters import Monster_clues, Monsters
+
 app=Flask(__name__)
 app.secret_key="secret"
 
@@ -195,5 +197,59 @@ def trick_normal():
 def trick_monster():
     candies=session["gained_candies"]
     return render_template("trick_monster.html", candies=candies)
+
+@app.route("/detection")
+def detection():
+    return render_template("detection.html")
+
+@app.route("/detectionstart")
+def detection_start():
+    monster=random.choice(Monsters)
+    clues=Monster_clues[monster]
+    first_clue=random.choice(clues)
+    clues.remove(first_clue)
+    session["clues"]=clues
+    session["given_clues"]=[first_clue]
+    session["monster"]=monster
+    session["clues_used"]=0
+    return redirect("/detectiongame")
+
+@app.route("/addclue")
+def add_clue():
+    clues=session["clues"]
+    next_clue=random.choice(clues)
+    clues.remove(next_clue)
+    session["clues"]=clues
+    given_clues=session["given_clues"]
+    given_clues.append(next_clue)
+    session["given_clues"]=given_clues
+    return redirect("/detectiongame")
+
+@app.route("/detectiongame", methods=["POST","GET"])
+def detection_game():
+    if request.method=="POST":
+        choice=request.form["choice"]
+        if choice=="clue":
+            if session["clues_used"]>=4:
+                return render_template("detection_game.html", clues=session["given_clues"], clues_available=False)
+            session["clues_used"]+=1
+            return redirect("/addclues")
+        elif choice==session["monster"].lower():
+            return redirect("/monstermatch")
+        else:
+            session["guessed"]=choice
+            return redirect("/monsterfail")
+    return render_template("detection_game.html", clues=session["given_clues"], clues_available=True)
+
+@app.route("/monstermatch")
+def monster_match():
+    monster=session["monster"]
+    return render_template("monster_match.html", monster=monster)
+
+@app.route("/monsterfail")
+def monster_fail():
+    monster=session["monster"]
+    guessed=session["guessed"]
+    return render_template("monster_fail.html", monster=monster, guessed=guessed)
 
 app.run(debug=True)
