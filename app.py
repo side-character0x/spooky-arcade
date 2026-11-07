@@ -214,7 +214,7 @@ def detection_start():
     session["clues_used"]=0
     return redirect("/detectiongame")
 
-@app.route("/addclue")
+@app.route("/addclues")
 def add_clue():
     clues=session["clues"]
     next_clue=random.choice(clues)
@@ -251,5 +251,17 @@ def monster_fail():
     monster=session["monster"]
     guessed=session["guessed"]
     return render_template("monster_fail.html", monster=monster, guessed=guessed)
+
+@app.route("/gambleguide")
+def gamble_guide():
+    return render_template("gamble_guide.html")
+
+@app.route("/knockguide")
+def knock_guide():
+    return render_template("/knock_guide.html")
+
+@app.route("/deductionguide")
+def deduction_guide():
+    return render_template("deduction_guide.html")
 
 app.run(debug=True)
