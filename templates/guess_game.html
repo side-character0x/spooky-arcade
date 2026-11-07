@@ -1,0 +1,19 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 5th Question</title>
+</head>
+<body>
+    <h1 style="font-size: 3vw; text-align: center;"><b>The 5th Question</b></h1>
+    <hr>
+    <p style="margin-top: 5vh; font-size: 2vw;">
+        Question: {{question}}
+    </p>
+    <hr>
+    <form action="/guessgame" method="post">
+    <button type="submit" name="choice" value="yes" style="font-size: 2vw;">YES</button><br>
+    <button type="submit" name="choice" value="no" style="font-size: 2vw;">NO</button>
+    </form>
+    <hr>
+    <a href="/route" style="font-size: 3vw;">Back</a>
+</body>

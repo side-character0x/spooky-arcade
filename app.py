@@ -3,13 +3,14 @@ from db import Database
 import random
 from candies import CANDY_TYPES
 from monsters import Monster_clues, Monsters
+from questions import Questions
 
 app=Flask(__name__)
 app.secret_key="secret"
 
 @app.route("/")
 def root():
-    return render_template("root.html")
+    return render_template("guess.html")
 
 @app.route("/login_initiate")
 def login_initiate():
@@ -263,5 +264,32 @@ def knock_guide():
 @app.route("/deductionguide")
 def deduction_guide():
     return render_template("deduction_guide.html")
+
+@app.route("/guess")
+def guess():
+    return render_template("guess.html")
+
+@app.route("/guessstart")
+def guess_start():
+    session["qna"]=[]
+    return redirect("/guessgame")
+
+@app.route("/guessgame", methods=["GET", "POST"])
+def guess_game():
+    choice=request.form.get("choice")
+    if choice is not None:
+        qna=session["qna"]
+        qna.append(choice)
+        session["qna"]=qna
+        print(session["qna"])
+    response=Questions().model(session["qna"])
+    if response[0].lower()=="yes":
+        print("yes")
+    session["question"]=response
+    qna=session["qna"]
+    qna.append([response])
+    session["qna"]=qna
+    return render_template("guess_game.html",question=response)
+
 
 app.run(debug=True)
