@@ -272,7 +272,7 @@ def guess():
 @app.route("/guessstart")
 def guess_start():
     session["qna"]=[]
-    return redirect("/guessgame")
+    return render_template("choice.html")
 
 @app.route("/guessgame", methods=["GET", "POST"])
 def guess_game():
@@ -281,13 +281,23 @@ def guess_game():
         qna=session["qna"]
         qna.append([session["question"], choice])
         session["qna"]=qna
-        print(session["qna"])
     response=Questions().model(session["qna"])
-    print(response)
     if response[0].lower()=="yes":
-        print("yes")
+        return render_template("guess_answer.html", monster=response[1])
     session["question"]=response
     return render_template("guess_game.html",question=response)
 
+@app.route("/answer", methods=["GET","POST"])
+def answer():
+    choice=request.form["choice"]
+    if choice=="yes":
+        return render_template("correct.html")
+    elif choice=="no":
+        return render_template("incorrect.html")
 
+@app.route("/choice", methods=["GET","POST"])
+def choice():
+    monster=request.form("monster")
+    session["monster"]=monster
+    return redirect("/guessgame")
 app.run(debug=True)

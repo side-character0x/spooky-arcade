@@ -37,7 +37,7 @@ class Questions:
 
             --- HOW TO RESPOND ---
             If you are NOT 100 percent sure yet:
-            Output ONLY the next question. Example: "Does the creature have physical flesh?"
+            Output ONLY the next question inside a list. Example: "["Does the creature have physical flesh?"]"
 
             If you are 99 percent or 100 percent sure you know the monster (based on the history):
             Output EXACTLY the word "yes" followed by a comma and the monster's name inside a list. Do not add punctuation or extra words.
@@ -48,4 +48,4 @@ class Questions:
             "role":"system", "content":prompt},
             {"role":"user", "content":qna}],
             temperature=0.1)
-        return output.choices[0].message.content
+        return json.loads(output.choices[0].message.content)

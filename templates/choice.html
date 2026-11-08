@@ -1,0 +1,26 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choice</title>
+</head>
+<body>
+    <h1 style="text-align: center; font-size: 4vw; "><b>CHOOSE A MONSTER</b></h1>
+    <hr>
+    <form action="/choice" method="post">
+    <select name="selected_monster" onchange="this.form.submit()" style="width: 70%; display: block; margin: 4vh auto; padding: 12px; background-color: #1a1a1a; color: #8b0000; border: 2px solid #3a0000; border-radius: 6px; font-size: 1.2rem; cursor: pointer; box-sizing: border-box;">
+        <!-- ai made -->
+        <option value="" disabled selected style="color: #555;">-- Choose Your Secret Monster --</option>
+        
+        <option value="ghost" style="background-color: #1a1a1a; color: #8b0000;">Ghost</option>
+        <option value="vampire" style="background-color: #1a1a1a; color: #8b0000;">Vampire</option>
+        <option value="werewolf" style="background-color: #1a1a1a; color: #8b0000;">Werewolf</option>
+        <option value="zombie" style="background-color: #1a1a1a; color: #8b0000;">Zombie</option>
+        <option value="witch" style="background-color: #1a1a1a; color: #8b0000;">Witch</option>
+        <option value="grim_reaper" style="background-color: #1a1a1a; color: #8b0000;">Grim Reaper</option>
+        <option value="mummy" style="background-color: #1a1a1a; color: #8b0000;">Mummy</option>
+        <option value="demon" style="background-color: #1a1a1a; color: #8b0000;">Demon</option>
+        <option value="skeleton" style="background-color: #1a1a1a; color: #8b0000;">Skeleton</option>
+        <option value="scarecrow" style="background-color: #1a1a1a; color: #8b0000;">Scarecrow</option>
+    </select>
+    </form>
+</body>
