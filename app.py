@@ -279,16 +279,14 @@ def guess_game():
     choice=request.form.get("choice")
     if choice is not None:
         qna=session["qna"]
-        qna.append(choice)
+        qna.append([session["question"], choice])
         session["qna"]=qna
         print(session["qna"])
     response=Questions().model(session["qna"])
+    print(response)
     if response[0].lower()=="yes":
         print("yes")
     session["question"]=response
-    qna=session["qna"]
-    qna.append([response])
-    session["qna"]=qna
     return render_template("guess_game.html",question=response)
 
 
