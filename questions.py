@@ -47,5 +47,22 @@ class Questions:
         output=self.user.chat.completions.create(model="openai/gpt-oss-20b", messages=[{
             "role":"system", "content":prompt},
             {"role":"user", "content":qna}],
-            temperature=0.1)
+            temperature=0.1,
+            max_tokens=1500 )
         return json.loads(output.choices[0].message.content)
+    def inverse_model(self,qn, monster):
+        qn=json.dumps(qn)
+        prompt = f'''You are a strict logic engine for a spooky game.
+            The secret monster is: {monster}.
+            You must answer the user's question based ONLY on whether the secret monster possesses that trait.
+
+            --- RULES ---
+            1. If the user's question is a valid Yes/No question (e.g., "Does it have fangs?", "Is it undead?"), answer with EXACTLY one word: "yes" or "no". Do not use punctuation.
+            2. If the user's question is NOT a Yes/No question (e.g., "What color is it?", "How tall are you?", "Hello"), answer with EXACTLY one word: "invalid".
+            3. Do not add any explanations, punctuation, or extra words.'''
+        output=self.user.chat.completions.create(model="openai/gpt-oss-20b", messages=[{
+                    "role":"system", "content":prompt},
+                    {"role":"user", "content":qn}],
+                    temperature=0.1,
+                    max_tokens=1500 )
+        return output.choices[0].message.content.lower()

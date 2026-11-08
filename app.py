@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session
 from db import Database
 import random
 from candies import CANDY_TYPES
-from monsters import Monster_clues, Monsters
+from monsters import Monster_clues, Monsters, Guess_monsters
 from questions import Questions
 
 app=Flask(__name__)
@@ -306,7 +306,37 @@ def answer():
 
 @app.route("/choice", methods=["GET","POST"])
 def choice():
-    monster=request.form("monster")
+    monster=request.form["selected_monster"]
     session["monster"]=monster
     return redirect("/guessgame")
+
+@app.route("/inverseguess")
+def inverse_guess():
+    return render_template("inverse_guess.html")
+
+@app.route("/inversestart")
+def inverse_start():
+    monster=random.choice(Guess_monsters)
+    session["guess_monster"]=monster
+    return render_template("inverse_guess_game.html", Answer=False, error=False)
+
+@app.route("/inversegame", methods=["GET","POST"])
+def inverse_guess_game():
+    qn=request.form["user_question"]
+    response=Questions().inverse_model(qn, session["guess_monster"])
+    if response=="invalid":
+        return render_template("inverse_guess_game.html", Answer=False, error=True)
+    return render_template("inverse_guess_game.html", Answer=True, response=response, error=False)
+
+@app.route("/guessinitiate")
+def guessinitiate():
+    return render_template("user_guess.html")
+
+@app.route("/userguess", methods=["POST","GET"])
+def user_guess():
+    guess=request.form["guess"]
+    if guess.lower()==session["guess_monster"].lower():
+        return render_template("inverse_correct.html")
+    else:
+        return render_template("inverse_incorrect.html", monster=session["guess_monster"])
 app.run(debug=True)

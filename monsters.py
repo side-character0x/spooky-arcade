@@ -1,4 +1,5 @@
 Monsters=["Vampire","Witch","Scarecrow","Ghost"]
+
 Monster_clues={
     "Ghost":[
         "The person is has no footprints where it came from",
@@ -29,3 +30,5 @@ Monster_clues={
         "It hasn't blinked once since it arrived.",
     ]
 }
+
+Guess_monsters= ["Ghost", "Vampire", "Werewolf", "Zombie", "Witch", "Grim Reaper", "Mummy", "Demon", "Skeleton", "Scarecrow"]
