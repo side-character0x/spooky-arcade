@@ -7,6 +7,9 @@
     <h1 style="font-size: 4vw; text-align: center; margin-top: 40vh;"><b>HAHA! I never lose</b></h1>
     <hr>
     <p style="font-size: 3vw; margin-top: 10vh; margin-bottom: 10vh;">Wanna <a href="/guessstart">try again?</a></p>
+    {% if lie %}
+    <p>Your monster was {{monster}}, You shouldn't lie.. </p>
+    {% endif %}
     <hr>
     <a href="/route" style="font-size: 3vw;">Back</a>
 </body>

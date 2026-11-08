@@ -10,7 +10,7 @@ app.secret_key="secret"
 
 @app.route("/")
 def root():
-    return render_template("guess.html")
+    return render_template("root.html")
 
 @app.route("/login_initiate")
 def login_initiate():
@@ -283,6 +283,7 @@ def guess_game():
         session["qna"]=qna
     response=Questions().model(session["qna"])
     if response[0].lower()=="yes":
+        session["guessed_monster"]=response[1]
         return render_template("guess_answer.html", monster=response[1])
     session["question"]=response
     return render_template("guess_game.html",question=response)
@@ -291,9 +292,17 @@ def guess_game():
 def answer():
     choice=request.form["choice"]
     if choice=="yes":
-        return render_template("correct.html")
+        if session["guessed_monster"]==session["monster"]:
+            lie=False
+        else:
+            lie=True
+        return render_template("correct.html",lie=lie, monster=session["monster"])
     elif choice=="no":
-        return render_template("incorrect.html")
+        if session["guessed_monster"]==session["monster"]:
+            lie=False
+        else:
+            lie=True
+        return render_template("incorrect.html",lie=lie, monster=session["monster"])
 
 @app.route("/choice", methods=["GET","POST"])
 def choice():
