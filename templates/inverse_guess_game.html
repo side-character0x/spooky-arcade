@@ -1,0 +1,28 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess Game</title>
+</head>
+<body style="background-color: #121212; color: #8b0000;">
+    <h1 style="font-size: 4vw; text-align: center;">CAN YOU GUESS THE MONSTER?</h1>
+    <hr>
+    <p style="margin-top: 10vh; font-size: 3vw;">You can ask questions and deduce the monster. <br>
+        <hr>
+    {% if Answer %}
+    <p>Answer to Previous Question: {{response}} </p>
+    {% endif %}
+    <hr>
+    {% if error %}
+    <p style="font-size: 3vw; color: red;">Question must be in Yes/No format.</p>
+    {% endif %}
+    <p style="font-size: 2vw;">The question must be in Yes/No format.</p>
+    <p>MOnster_pool= ["Ghost", "Vampire", "Werewolf", "Zombie", "Witch", "Grim Reaper", "Mummy", "Demon", "Skeleton", "Scarecrow"]</p>
+    <form action="/inversegame" method="post">
+    <input type="text" name="user_question" style="font-size: 3vw; margin-top: 5vh;">
+    <button type="submit">Ask</button>
+    <hr>
+    <p style="font-size: 3vw; "></p>Know which monster it is? <a href="/guessinitiate">Guess</a>
+    </form>
+    <hr>
+    <a href="/route" style="font-size: 3vw;">Back</a>
+</body>
