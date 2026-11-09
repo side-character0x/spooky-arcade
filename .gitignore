@@ -1,0 +1,33 @@
+# --- SECRETS & API KEYS ---
+config.py
+.env
+.env.*
+
+# --- DATABASES ---
+*.db
+*.sqlite3
+schedule.db
+arcade.db
+
+# --- PYTHON CACHE ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# --- BUILD FILES (PyInstaller) ---
+build/
+dist/
+*.spec
+
+# --- VS CODE & SYSTEM FILES ---
+.vscode/
+.DS_Store
+Thumbs.db
+
+# --- MODELS & CACHE (If you have any) ---
+.cache/
+*.gguf
+*.bin
