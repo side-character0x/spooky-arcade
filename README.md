@@ -20,8 +20,5 @@ I built this because I wanted to create a fun app that combined multiple games i
 ## How to run (The .exe Version)
 1. Download the `.zip` file through demo link and extract it.
 2. Open the extracted folder. **Do not move the `.exe` out of this folder** (it needs the `_internal` folder to run).
-3. Double-click `arcade.exe`. A black console window will open.
+3. Double-click `spooky_arcade.exe`. A black console window will open.
 4. Browser will automatically open.
-5. **For Reviewers:** You can log in with the developer account to test the shop with high amount of coins.
-   - **Username:** `developer`
-   - **Pin:** `1111`
