@@ -4,8 +4,17 @@ import random
 from candies import CANDY_TYPES
 from monsters import Monster_clues, Monsters, Guess_monsters
 from questions import Questions
+import sys
+import os
+import threading
+import time
+import webbrowser
 
-app=Flask(__name__)
+if getattr(sys, 'frozen', False):
+    template_folder = os.path.join(sys._MEIPASS, 'templates')
+    app = Flask(__name__, template_folder=template_folder)
+else:
+    app = Flask(__name__)
 app.secret_key="secret"
 
 @app.route("/")
@@ -339,4 +348,11 @@ def user_guess():
         return render_template("inverse_correct.html")
     else:
         return render_template("inverse_incorrect.html", monster=session["guess_monster"])
-app.run(debug=True)
+
+def open_browser():
+    time.sleep(1.5)
+    webbrowser.open("http://127.0.0.1:5000")
+
+if __name__ == "__main__":
+    threading.Thread(target=open_browser, daemon=True).start()
+    app.run()
